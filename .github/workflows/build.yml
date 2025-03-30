@@ -13,13 +13,12 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      with:
-        ref: main
 
     - name: Set up JDK
       uses: actions/setup-java@v4
       with:
-        java-version: '17'
+        distribution: 'temurin'  # 指定Java发行版，例如 'temurin'，也可以选择其他支持的发行版[^142^]
+        java-version: '17'       # 指定Java版本
 
     - name: Build with Gradle
       run: ./gradlew assembleRelease
@@ -29,4 +28,3 @@ jobs:
       with:
         name: Magisk-Overlayfs
         path: app/build/outputs/apk/release/
-        
