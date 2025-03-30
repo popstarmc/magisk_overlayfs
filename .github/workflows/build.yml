@@ -17,8 +17,17 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v4
       with:
-        distribution: 'temurin'  # 指定Java发行版，例如 'temurin'，也可以选择其他支持的发行版[^142^]
-        java-version: '17'       # 指定Java版本
+        distribution: 'temurin'
+        java-version: '17'
+
+    - name: Download Gradle Wrapper
+      run: |
+        mkdir -p gradle/wrapper
+        curl -L -o gradle/wrapper/gradle-wrapper.jar https://services.gradle.org/distributions/gradle-7.4.2-bin.zip
+        echo "distributionUrl=https://services.gradle.org/distributions/gradle-7.4.2-bin.zip" > gradle/wrapper/gradle-wrapper.properties
+        echo "#!/bin/bash" > gradlew
+        echo "java -Dorg.gradle.appname=gradle -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain \$@" >> gradlew
+        chmod +x gradlew
 
     - name: Build with Gradle
       run: ./gradlew assembleRelease
