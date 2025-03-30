@@ -1,0 +1,32 @@
+name: Build Magisk Overlayfs
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        ref: main
+
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: '17'
+
+    - name: Build with Gradle
+      run: ./gradlew assembleRelease
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: Magisk-Overlayfs
+        path: app/build/outputs/apk/release/
+        
