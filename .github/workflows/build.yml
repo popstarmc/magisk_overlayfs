@@ -29,6 +29,15 @@ jobs:
         echo "java -Dorg.gradle.appname=gradle -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain \$@" >> gradlew
         chmod +x gradlew
 
+    - name: Verify gradle-wrapper.jar
+      run: |
+        if [ -f gradle/wrapper/gradle-wrapper.jar ]; then
+          echo "gradle-wrapper.jar exists."
+        else
+          echo "gradle-wrapper.jar does not exist."
+          exit 1
+        fi
+
     - name: Build with Gradle
       run: ./gradlew assembleRelease
 
